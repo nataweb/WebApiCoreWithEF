@@ -23,6 +23,8 @@ namespace WebApiCoreWithEF.Models
             public string Nationality { get; set; }
 
             public string PINCode { get; set; }
+
+            
          }
 }
 

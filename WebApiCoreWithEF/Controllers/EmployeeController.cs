@@ -4,7 +4,9 @@ using Microsoft.Extensions.Primitives;
 using System.Collections.Generic;
 using System.Linq;
 using WebApiCoreWithEF.Context;
+using WebApiCoreWithEF.Helper;
 using WebApiCoreWithEF.Models;
+
 
 namespace WebApiCoreWithEF.Controllers
 {
@@ -34,6 +36,8 @@ namespace WebApiCoreWithEF.Controllers
         [HttpPost]
         public void Post([FromBody] Employee value)
         {
+            value.City = EncryptionHelper.Encrypt(value.City);
+            value.Nationality = EncryptionHelper.Encrypt(value.Nationality);
             _companyContext.Employees.Add(value);
             _companyContext.SaveChanges();
         }
@@ -45,6 +49,7 @@ namespace WebApiCoreWithEF.Controllers
             if (employee != null)
             {
                 _companyContext.Entry<Employee>(employee).CurrentValues.SetValues(value);
+                string encryptedText = EncryptionHelper.Encrypt(value.ToString());
                 _companyContext.SaveChanges();
             }
         }
